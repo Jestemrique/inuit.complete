@@ -1,0 +1,4314 @@
+///*------------------------------------*\
+//    #SETTINGS-RESPONSIVE
+//\*------------------------------------*/
+
+// Hold our breakpoint aliases and conditions in a list.
+//
+// These can be invoked later on via the `media-query()` mixin found in
+// `_tools.responsive`.
+
+$breakpoints: (
+    "palm"          "screen and (max-width: 44.9375em)",
+    "lap"           "screen and (min-width: 45em) and (max-width: 63.9375em)",
+    "lap-and-up"    "screen and (min-width: 45em)",
+    "portable"      "screen and (max-width: 63.9375em)",
+    "desk"          "screen and (min-width: 64em)",
+    "retina"        "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)"
+) !default;
+
+
+
+
+
+// If we have included this file, set a variable to tell the rest of the
+// framework that we have some responsive settings.
+$inuit-responsive-settings: true;
+
+///*------------------------------------*\
+//    #FUNCTIONS
+//\*------------------------------------*/
+
+// inuitcss makes use of a few functions that are also available for you to use
+// later on in your extension of the framework.
+
+
+
+
+
+// Maths helpers.
+//
+// Halve and double numbers, returning rounded integers. E.g.:
+//
+// .foo {
+//     padding: halve(3.2px);
+// }
+//
+@function quarter($inuit-number) {
+    @return round($inuit-number / 4);
+}
+
+@function halve($inuit-number) {
+    @return round($inuit-number / 2);
+}
+
+@function double($inuit-number) {
+    @return round($inuit-number * 2);
+}
+
+@function quadruple($inuit-number) {
+    @return round($inuit-number * 4);
+}
+
+///*------------------------------------*\
+//    #MIXINS
+//\*------------------------------------*/
+
+// inuitcss has a number of default mixins that the framework, and developers
+// working with it, can make use of.
+
+
+
+
+
+// Create a fully formed type style (sizing and vertical rhythm) by passing in a
+// single value, e.g.:
+//
+// .foo {
+//     @include inuit-font-size(12px);
+// }
+//
+// This will generate a rem-based font-size with its pixel fallback, as well as
+// a unitless line-height which will place the element on your baseline, e.g.:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 2;
+// }
+//
+// If you do not want inuitcss to generate you a line-height automatically, you
+// simply pass in your own as a second paramater:
+//
+// .foo {
+//     @include inuit-font-size(12px, 1.5);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 1.5;
+// }
+//
+// This parameter can be any integer, ‘inherit’, or ‘normal’. If you don’t want
+// a line-height at all, pass in a second paramater of ‘none’ or ‘false’:
+//
+// .foo {
+//     @include inuit-font-size(12px, none);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+// }
+
+@mixin inuit-font-size($inuit-font-size, $inuit-line-height: auto) {
+    font-size: $inuit-font-size;
+    font-size: ($inuit-font-size / $inuit-base-font-size) * 1rem;
+
+    @if $inuit-line-height == auto {
+        line-height: ceil($inuit-font-size / $inuit-base-line-height) * ($inuit-base-line-height / $inuit-font-size);
+    }
+
+    @else {
+
+        @if (type-of($inuit-line-height) == number or $inuit-line-height == inherit or $inuit-line-height == normal) {
+            line-height: $inuit-line-height;
+        }
+
+        @elseif ($inuit-line-height != none and $inuit-line-height != false) {
+            @warn "D’oh! ‘#{$inuit-line-height}’ is not a valid value for `line-height`."
+        }
+
+    }
+
+}
+
+///*------------------------------------*\
+//    #MIXINS
+//\*------------------------------------*/
+
+// inuitcss has a number of default mixins that the framework, and developers
+// working with it, can make use of.
+
+
+
+
+
+// Create a fully formed type style (sizing and vertical rhythm) by passing in a
+// single value, e.g.:
+//
+// .foo {
+//     @include inuit-font-size(12px);
+// }
+//
+// This will generate a rem-based font-size with its pixel fallback, as well as
+// a unitless line-height which will place the element on your baseline, e.g.:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 2;
+// }
+//
+// If you do not want inuitcss to generate you a line-height automatically, you
+// simply pass in your own as a second paramater:
+//
+// .foo {
+//     @include inuit-font-size(12px, 1.5);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 1.5;
+// }
+//
+// This parameter can be any integer, ‘inherit’, or ‘normal’. If you don’t want
+// a line-height at all, pass in a second paramater of ‘none’ or ‘false’:
+//
+// .foo {
+//     @include inuit-font-size(12px, none);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+// }
+
+@mixin inuit-font-size($inuit-font-size, $inuit-line-height: auto) {
+    font-size: $inuit-font-size;
+    font-size: ($inuit-font-size / $inuit-base-font-size) * 1rem;
+
+    @if $inuit-line-height == auto {
+        line-height: ceil($inuit-font-size / $inuit-base-line-height) * ($inuit-base-line-height / $inuit-font-size);
+    }
+
+    @else {
+
+        @if (type-of($inuit-line-height) == number or $inuit-line-height == inherit or $inuit-line-height == normal) {
+            line-height: $inuit-line-height;
+        }
+
+        @elseif ($inuit-line-height != none and $inuit-line-height != false) {
+            @warn "D’oh! ‘#{$inuit-line-height}’ is not a valid value for `line-height`."
+        }
+
+    }
+
+}
+
+
+///*------------------------------------*\
+//    #MIXINS
+//\*------------------------------------*/
+
+// inuitcss has a number of default mixins that the framework, and developers
+// working with it, can make use of.
+
+
+
+
+
+// Create a fully formed type style (sizing and vertical rhythm) by passing in a
+// single value, e.g.:
+//
+// .foo {
+//     @include inuit-font-size(12px);
+// }
+//
+// This will generate a rem-based font-size with its pixel fallback, as well as
+// a unitless line-height which will place the element on your baseline, e.g.:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 2;
+// }
+//
+// If you do not want inuitcss to generate you a line-height automatically, you
+// simply pass in your own as a second paramater:
+//
+// .foo {
+//     @include inuit-font-size(12px, 1.5);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+//     line-height: 1.5;
+// }
+//
+// This parameter can be any integer, ‘inherit’, or ‘normal’. If you don’t want
+// a line-height at all, pass in a second paramater of ‘none’ or ‘false’:
+//
+// .foo {
+//     @include inuit-font-size(12px, none);
+// }
+//
+// This will yield:
+//
+// .foo {
+//     font-size: 12px;
+//     font-size: 0.75rem;
+// }
+
+@mixin inuit-font-size($inuit-font-size, $inuit-line-height: auto) {
+    font-size: $inuit-font-size;
+    font-size: ($inuit-font-size / $inuit-base-font-size) * 1rem;
+
+    @if $inuit-line-height == auto {
+        line-height: ceil($inuit-font-size / $inuit-base-line-height) * ($inuit-base-line-height / $inuit-font-size);
+    }
+
+    @else {
+
+        @if (type-of($inuit-line-height) == number or $inuit-line-height == inherit or $inuit-line-height == normal) {
+            line-height: $inuit-line-height;
+        }
+
+        @elseif ($inuit-line-height != none and $inuit-line-height != false) {
+            @warn "D’oh! ‘#{$inuit-line-height}’ is not a valid value for `line-height`."
+        }
+
+    }
+
+}
+
+///*------------------------------------*\
+//    #WIDTHS
+//\*------------------------------------*/
+
+// A mixin to spit out our width classes. Pass in the columns we want the widths
+// to have, and an optional suffix for responsive widths. E.g. to create thirds
+// and quarters for a small breakpoint:
+//
+// @include inuit-widths(3 4, -sm);
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-widths-namespace: $inuit-namespace !default;
+
+// Do we want to use classes like `<div class="u-1/4">` instead of
+// `<div class="u-1-of-4">`?
+$inuit-use-fractions: true !default;
+
+// Depending on what we chose for `$inuit-use-fractions`, create the relevant
+// delimiter.
+@if ($inuit-use-fractions == true) {
+    $inuit-widths-delimiter: \/ !global;
+} @else {
+    $inuit-widths-delimiter: -of- !global;
+}
+
+@mixin inuit-widths($inuit-widths-columns, $inuit-widths-breakpoint: null) {
+
+    // Loop through the number of columns for each denominator of our fractions.
+    @each $inuit-widths-denominator in $inuit-widths-columns {
+
+        // If we’re trying to make wholes, just spit a 100% width utility out
+        // one time only.
+        @if ($inuit-widths-denominator == 1) {
+            .#{$inuit-widths-namespace}u-1#{$inuit-widths-delimiter}1#{$inuit-widths-breakpoint} {
+                width: 100% !important;
+            }
+        } @else {
+
+            // Begin creating a numberator for our fraction up until we hit the
+            // denominator.
+            @for $inuit-widths-numerator from 1 to $inuit-widths-denominator {
+
+                // Build a class in the format `.u-3/4` or `.u-3-of-4`.
+                .#{$inuit-widths-namespace}u-#{$inuit-widths-numerator}#{$inuit-widths-delimiter}#{$inuit-widths-denominator}#{$inuit-widths-breakpoint} {
+                    width: ($inuit-widths-numerator / $inuit-widths-denominator) * 100% !important;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #BOX-SIZING
+\*------------------------------------*/
+
+/**
+ * Set the global `box-sizing` state to `border-box`.
+ *
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ * paulirish.com/2012/box-sizing-border-box-ftw
+ */
+html {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+* {
+
+    &,
+    &:before,
+    &:after {
+        -webkit-box-sizing: inherit;
+           -moz-box-sizing: inherit;
+                box-sizing: inherit;
+        }
+
+}
+
+
+
+
+
+// If we have included this file, set a variable to tell the rest of the
+// framework that global `box-sizing: border-box` has been set.
+$inuit-global-border-box: true;
+
+
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS and IE text size adjust after device orientation change,
+ *    without disabling user zoom.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+
+body {
+  margin: 0;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.
+ */
+
+[hidden],
+template {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+}
+
+/**
+ * Improve readability of focused elements when they are also in an
+ * active/hover state.
+ */
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+
+b,
+strong {
+  font-weight: bold;
+}
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+
+img {
+  border: 0;
+}
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+/**
+ * Contain overflow in all browsers.
+ */
+
+pre {
+  overflow: auto;
+}
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+
+button {
+  overflow: visible;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+
+button,
+select {
+  text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+input {
+  line-height: normal;
+}
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.
+ */
+
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  box-sizing: content-box; /* 2 */
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/* Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+/*------------------------------------*\
+    #RESET
+\*------------------------------------*/
+
+/**
+ * As well as using normalize.css, it is often advantageous to remove all
+ * margins from certain elements.
+ */
+body,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd, ol, ul,
+form, fieldset, legend,
+figure,
+table, th, td, caption,
+hr {
+    margin:  0;
+    padding: 0;
+}
+
+
+
+
+
+/**
+ * Give a help cursor to elements that give extra info on `:hover`.
+ */
+abbr[title],
+dfn[title] {
+    cursor: help;
+}
+
+
+
+
+
+/**
+ * Remove underlines from potentially troublesome elements.
+ */
+u,
+ins {
+    text-decoration: none;
+}
+
+
+
+
+
+/**
+ * Apply faux underlines to inserted text via `border-bottom`.
+ */
+ins {
+    border-bottom: 1px solid;
+}
+
+
+/*------------------------------------*\
+    #SHARED
+\*------------------------------------*/
+
+/**
+ * Where `margin-bottom` is concerned,this value will be the same as the
+ * base line-height. This allows us to keep a consistent vertical rhythm.
+ * As per: csswizardry.com/2012/06/single-direction-margin-declarations
+ */
+h1, h2, h3, h4, h5, h6,
+ul, ol, dl,
+blockquote, p, address,
+hr,
+table,
+fieldset, figure,
+pre,
+%margin-bottom {
+    margin-bottom: $inuit-base-spacing-unit;
+    margin-bottom: ($inuit-base-spacing-unit / $inuit-base-font-size) * 1rem;
+}
+
+
+
+
+
+/**
+ * Where `margin-left` is concerned we want to try and indent certain elements
+ * by a consistent amount. Define that amount once,here.
+ */
+ul, ol, dd,
+%margin-left {
+    margin-left: 2 * $inuit-base-spacing-unit;
+    margin-left: (2 * $inuit-base-spacing-unit / $inuit-base-font-size) * 1rem;
+}
+
+
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+/**
+ * Headings 1–6.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-heading-size-1:  36px !default;
+$inuit-heading-size-2:  30px !default;
+$inuit-heading-size-3:  24px !default;
+$inuit-heading-size-4:  20px !default;
+$inuit-heading-size-5:  16px !default;
+$inuit-heading-size-6:  14px !default;
+
+h1 {
+    @include inuit-font-size($inuit-heading-size-1);
+}
+
+h2 {
+    @include inuit-font-size($inuit-heading-size-2);
+}
+
+h3 {
+    @include inuit-font-size($inuit-heading-size-3);
+}
+
+h4 {
+    @include inuit-font-size($inuit-heading-size-4);
+}
+
+h5 {
+    @include inuit-font-size($inuit-heading-size-5);
+}
+
+h6 {
+    @include inuit-font-size($inuit-heading-size-6);
+}
+
+/*------------------------------------*\
+    #IMAGES
+\*------------------------------------*/
+
+/**
+ * 1. Fluid images for responsive purposes.
+ * 2. Offset `alt` text from surrounding copy.
+ * 3. Setting `vertical-align` removes the whitespace that appears under `img`
+ *    elements when they are dropped into a page as-is. Safer alternative to
+ *    using `display: block;`.
+ */
+img {
+    max-width: 100%; /* [1] */
+    font-style: italic; /* [2] */
+    vertical-align: middle; /* [3] */
+}
+
+
+
+/**
+ * 1. Google Maps breaks if `max-width: 100%` acts upon it; use their selector
+ *    to remove the effects.
+ * 2. If a `width` and/or `height` attribute have been explicitly defined, let’s
+ *    not make the image fluid.
+ */
+.gm-style img, /* [1] */
+img[width], /* [2] */
+img[height] {  /* [2] */
+    max-width: none;
+}
+
+
+/*------------------------------------*\
+    #LISTS
+\*------------------------------------*/
+
+/**
+ * Remove extra vertical spacing when nesting lists.
+ */
+li {
+
+    > ul,
+    > ol {
+        margin-bottom: 0;
+    }
+
+}
+
+
+/*------------------------------------*\
+    #PAGE
+\*------------------------------------*/
+
+/**
+ * High-, page-level styling.
+ *
+ * 1. Set the default `font-size` and `line-height` for the entire project,
+ *    sourced from our default variables. The `font-size` is calculated to exist
+ *    in ems, the `line-height` is calculated to exist unitlessly.
+ * 2. Force scrollbars to always be visible to prevent awkward ‘jumps’ when
+ *    navigating between pages that do/do not have enough content to produce
+ *    scrollbars naturally.
+ * 3. Ensure the page always fills at least the entire height of the viewport.
+ * 4. Prevent certain mobile browsers from automatically zooming fonts.
+ * 5. Fonts on OSX will look more consistent with other systems that do not
+ *    render text using sub-pixel anti-aliasing.
+ */
+html {
+    font-size: ($inuit-base-font-size / 16px) * 1em; /* [1] */
+    line-height: $inuit-base-line-height / $inuit-base-font-size; /* [1] */
+    background-color: $inuit-base-background-color;
+    color: $inuit-base-text-color;
+    overflow-y: scroll; /* [2] */
+    min-height: 100%; /* [3] */
+    -webkit-text-size-adjust: 100%; /* [4] */
+        -ms-text-size-adjust: 100%; /* [4] */
+    -moz-osx-font-smoothing: grayscale; /* [5] */
+     -webkit-font-smoothing: antialiased; /* [5] */
+}
+
+
+/*------------------------------------*\
+    #PARAGRAPHS
+\*------------------------------------*/
+
+/**
+ * The `.lede` class is used to make the introductory text (usually a paragraph)
+ * of a document slightly larger: en.wikipedia.org/wiki/Lede_(news)
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-lede-size:   1.125 !default;
+
+.#{$inuit-namespace}lede,
+%#{$inuit-namespace}lede {
+    @include inuit-font-size($inuit-base-font-size * $inuit-lede-size);
+}
+
+/*------------------------------------*\
+    #BLOCK
+\*------------------------------------*/
+
+/**
+ * The block object simply stacks an image on top of some text-like content.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-block-namespace:     $inuit-namespace !default;
+
+$inuit-block-gutter:            $inuit-base-spacing-unit !default;
+$inuit-block-gutter--tiny:        quarter($inuit-block-gutter) !default;
+$inuit-block-gutter--small:         halve($inuit-block-gutter) !default;
+$inuit-block-gutter--large:        double($inuit-block-gutter) !default;
+$inuit-block-gutter--huge:      quadruple($inuit-block-gutter) !default;
+
+$inuit-enable-block--flush:     false !default;
+$inuit-enable-block--tiny:      false !default;
+$inuit-enable-block--small:     false !default;
+$inuit-enable-block--large:     false !default;
+$inuit-enable-block--huge:      false !default;
+$inuit-enable-block--center:    false !default;
+$inuit-enable-block--right:     false !default;
+
+
+
+
+
+/**
+ * Stacked image-with-text object. A simple abstraction to cover a very commonly
+ * occurring design pattern.
+ */
+.#{$inuit-block-namespace}block,
+%#{$inuit-block-namespace}block {
+    display: block;
+}
+
+
+    /**
+     * 1. Eliminate whitespace around images.
+     */
+    .#{$inuit-block-namespace}block__img,
+    %#{$inuit-block-namespace}block__img {
+        vertical-align: middle; /* [1] */
+        margin-bottom: $inuit-block-gutter;
+
+        @if ($inuit-enable-block--flush == true) {
+
+            /**
+             * No space between the image and the text content.
+             */
+
+            .#{$inuit-block-namespace}block--flush > &,
+            %#{$inuit-block-namespace}block--flush > & {
+                margin-bottom: 0;
+            }
+
+        }
+
+        @if ($inuit-enable-block--tiny == true) {
+
+            /**
+             * Tiny space between the image and the text content.
+             */
+
+            .#{$inuit-block-namespace}block--tiny > &,
+            %#{$inuit-block-namespace}block--tiny > & {
+                margin-bottom: $inuit-block-gutter--tiny;
+            }
+
+        }
+
+        @if ($inuit-enable-block--small == true) {
+
+            /**
+             * Small space between the image and the text content.
+             */
+
+            .#{$inuit-block-namespace}block--small > &,
+            %#{$inuit-block-namespace}block--small > & {
+                margin-bottom: $inuit-block-gutter--small
+            }
+
+        }
+
+        @if ($inuit-enable-block--large == true) {
+
+            /**
+             * Large space between the image and the text content.
+             */
+
+            .#{$inuit-block-namespace}block--large > &,
+            %#{$inuit-block-namespace}block--large > & {
+                margin-bottom: $inuit-block-gutter--large;
+            }
+
+        }
+
+        @if ($inuit-enable-block--huge == true) {
+
+            /**
+             * Huge space between the image and the text content.
+             */
+
+            .#{$inuit-block-namespace}block--huge > &,
+            %#{$inuit-block-namespace}block--huge > & {
+                margin-bottom: $inuit-block-gutter--huge;
+            }
+
+        }
+
+    }
+
+
+
+
+
+    /**
+     * Text-content.
+     */
+    .#{$inuit-block-namespace}block__body,
+    %#{$inuit-block-namespace}block__body {
+        display: block;
+    }
+
+
+
+
+
+@if ($inuit-enable-block--right == true) {
+
+    /**
+     * Right-aligned blocks.
+     */
+
+    .#{$inuit-block-namespace}block--right,
+    %#{$inuit-block-namespace}block--right {
+        text-align: right;
+    }
+
+}
+
+@if ($inuit-enable-block--center == true) {
+
+    /**
+     * Center-aligned blocks.
+     */
+
+    .#{$inuit-block-namespace}block--center,
+    %#{$inuit-block-namespace}block--center {
+        text-align: center;
+    }
+
+}
+
+
+/*------------------------------------*\
+    #BOX
+\*------------------------------------*/
+
+/**
+ * The box object simply boxes off content.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-box-namespace:       $inuit-namespace !default;
+
+$inuit-box-padding:         $inuit-base-spacing-unit !default;
+$inuit-box-padding--tiny:     quarter($inuit-box-padding) !default;
+$inuit-box-padding--small:      halve($inuit-box-padding) !default;
+$inuit-box-padding--large:     double($inuit-box-padding) !default;
+$inuit-box-padding--huge:   quadruple($inuit-box-padding) !default;
+
+$inuit-enable-box--flush:   false !default;
+$inuit-enable-box--tiny:    false !default;
+$inuit-enable-box--small:   false !default;
+$inuit-enable-box--large:   false !default;
+$inuit-enable-box--huge:    false !default;
+
+
+
+
+
+/**
+ * 1. So we can apply the `.box` class to naturally-inline elements.
+ */
+.#{$inuit-box-namespace}box,
+%#{$inuit-box-namespace}box {
+    @extend %clearfix;
+    display: block; /* [1] */
+    padding: $inuit-box-padding;
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-box--flush == true) {
+
+    /**
+     * Flush (i.e. no padding) box.
+     */
+
+    .#{$inuit-box-namespace}box--flush,
+    %#{$inuit-box-namespace}box--flush {
+        padding: 0;
+    }
+
+}
+
+@if ($inuit-enable-box--tiny == true) {
+
+    /**
+     * Tiny box.
+     */
+
+    .#{$inuit-box-namespace}box--tiny,
+    %#{$inuit-box-namespace}box--tiny {
+        padding: $inuit-box-padding--tiny;
+    }
+
+}
+
+@if ($inuit-enable-box--small == true) {
+
+    /**
+     * Small box.
+     */
+
+    .#{$inuit-box-namespace}box--small,
+    %#{$inuit-box-namespace}box--small {
+        padding: $inuit-box-padding--small;
+    }
+
+}
+
+@if ($inuit-enable-box--large == true) {
+
+    /**
+     * Large box.
+     */
+
+    .#{$inuit-box-namespace}box--large,
+    %#{$inuit-box-namespace}box--large {
+        padding: $inuit-box-padding--large;
+    }
+
+}
+
+@if ($inuit-enable-box--huge == true) {
+
+    /**
+     * Huge box.
+     */
+
+    .#{$inuit-box-namespace}box--huge,
+    %#{$inuit-box-namespace}box--huge {
+        padding: $inuit-box-padding--huge;
+    }
+
+}
+
+
+/*------------------------------------*\
+    #BUTTONS
+\*------------------------------------*/
+
+/**
+ * A simple button object.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-btn-namespace:       $inuit-namespace !default;
+
+$inuit-btn-padding:         halve($inuit-base-spacing-unit) !default;
+$inuit-btn-padding--small:  halve($inuit-btn-padding) !default;
+$inuit-btn-padding--large:  double($inuit-btn-padding) !default;
+$inuit-btn-background:      #4a8ec2 !default;
+$inuit-btn-color:           #fff !default;
+$inuit-btn-border-width:    1px !default;
+$inuit-btn-border-style:    solid !default;
+$inuit-btn-border-color:    $inuit-btn-background !default;
+$inuit-btn-radius:          0 !default;
+
+$inuit-enable-btn--small:   false !default;
+$inuit-enable-btn--large:   false !default;
+$inuit-enable-btn--full:    false !default;
+$inuit-enable-btn--pill:    false !default;
+
+
+
+
+
+// Here we set a variable assuming that `box-sizing: border-box;` is not set
+// globally. If it has been previously been defined, the following variable will
+// be overriden and will be set to `true`.
+$inuit-global-border-box: false !default;
+
+
+
+
+
+/**
+ * 1. Allow us to style box model properties.
+ * 2. Line different sized buttons up a little nicer.
+ * 3. Make buttons inherit font styles (often necessary when styling `input`s as
+ *    buttons).
+ * 4. Reset/normalize some styles.
+ * 5. Force all button-styled elements to appear clickable.
+ * 6. Fixes odd inner spacing in IE7.
+ * 7. Subtract the border size from the padding value so that buttons do not
+ *    grow larger as we add borders.
+ */
+.#{$inuit-btn-namespace}btn,
+%#{$inuit-btn-namespace}btn {
+    display: inline-block; /* [1] */
+    vertical-align: middle; /* [2] */
+    font: inherit; /* [3] */
+    text-align: center; /* [4] */
+    margin:  0; /* [4] */
+    cursor: pointer; /* [5] */
+    overflow: visible; /* [6] */
+    padding: $inuit-btn-padding - $inuit-btn-border-width  double($inuit-btn-padding) - $inuit-btn-border-width; /* [7] */
+    background-color: $inuit-btn-background;
+
+    @if($inuit-btn-border-width != 0) {
+        border: $inuit-btn-border-width $inuit-btn-border-style $inuit-btn-border-color;
+    } @else {
+        border: none; /* [4] */
+    }
+
+    @if($inuit-btn-radius != 0) {
+        border-radius: $inuit-btn-radius;
+    }
+
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none; /* [4] */
+        color: $inuit-btn-color;
+    }
+
+}
+
+/**
+ * Fix a Firefox bug whereby `input type="submit"` gains 2px extra padding.
+ */
+.#{$inuit-btn-namespace}btn::-moz-focus-inner,
+%#{$inuit-btn-namespace}btn::-moz-focus-inner {
+    border:  0;
+    padding: 0;
+}
+
+
+
+
+
+@if ($inuit-enable-btn--small == true) {
+
+    /**
+     * Small buttons.
+     */
+
+    .#{$inuit-btn-namespace}btn--small,
+    %#{$inuit-btn-namespace}btn--small {
+        padding: $inuit-btn-padding--small - $inuit-btn-border-width  double($inuit-btn-padding--small) - $inuit-btn-border-width; /* [7] */
+    }
+
+}
+
+@if ($inuit-enable-btn--large == true) {
+
+    /**
+     * Large buttons.
+     */
+
+    .#{$inuit-btn-namespace}btn--large,
+    %#{$inuit-btn-namespace}btn--large {
+        padding: $inuit-btn-padding--large - $inuit-btn-border-width  double($inuit-btn-padding--large) - $inuit-btn-border-width; /* [7] */
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-btn--full == true) {
+
+    /**
+     * Full-width buttons.
+     */
+
+    .#{$inuit-btn-namespace}btn--full,
+    %#{$inuit-btn-namespace}btn--full {
+        width: 100%;
+
+        @if $inuit-global-border-box == false {
+            /**
+             * Remove paddings so that widths and paddings don’t conflict.
+             */
+            padding-right: 0;
+            padding-left:  0;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-btn--pill == true) {
+
+    /**
+     * Round-ended buttons.
+     *
+     * 1. Overly-large value to ensure the radius rounds the whole end of the
+     *    button.
+     */
+
+    .#{$inuit-btn-namespace}btn--pill,
+    %#{$inuit-btn-namespace}btn--pill {
+        border-radius: 100px; /* [1] */
+    }
+
+}
+
+
+/*------------------------------------*\
+    #FLAG
+\*------------------------------------*/
+
+/**
+ * The flag object is a design pattern similar to the media object, however it
+ * utilises `display: table[-cell];` to give us control over the vertical
+ * alignments of the text and image. csswizardry.com/2013/05/the-flag-object
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-flag-namespace:          $inuit-namespace !default;
+
+$inuit-flag-gutter:             $inuit-base-spacing-unit !default;
+$inuit-flag-gutter--tiny:         quarter($inuit-flag-gutter) !default;
+$inuit-flag-gutter--small:          halve($inuit-flag-gutter) !default;
+$inuit-flag-gutter--large:         double($inuit-flag-gutter) !default;
+$inuit-flag-gutter--huge:       quadruple($inuit-flag-gutter) !default;
+
+$inuit-enable-flag--tiny:       false !default;
+$inuit-enable-flag--small:      false !default;
+$inuit-enable-flag--large:      false !default;
+$inuit-enable-flag--huge:       false !default;
+$inuit-enable-flag--rev:        false !default;
+$inuit-enable-flag--flush:      false !default;
+$inuit-enable-flag--top:        false !default;
+$inuit-enable-flag--bottom:     false !default;
+$inuit-enable-flag--responsive: false !default;
+$inuit-flag-collapse-at:        720px !default;
+
+
+
+
+
+/**
+ * 1. Allows us to control vertical alignments
+ * 2. Force the object to be the full width of its parent. Combined with [1],
+ *    this makes the object behave in a quasi-`display: block;` manner.
+ */
+.#{$inuit-flag-namespace}flag,
+%#{$inuit-flag-namespace}flag {
+    display: table; /* [1] */
+    width: 100%; /* [2] */
+}
+
+    /**
+     * Items within a flag object. There should only ever be one of each.
+     *
+     * 1. Default to aligning content to their middles.
+     */
+    .#{$inuit-flag-namespace}flag__img,
+    %#{$inuit-flag-namespace}flag__img,
+    .#{$inuit-flag-namespace}flag__body,
+    %#{$inuit-flag-namespace}flag__body {
+        display: table-cell;
+        vertical-align: middle; /* [1] */
+    }
+
+    /**
+     * Flag images have a space between them and the body of the object.
+     */
+    .#{$inuit-flag-namespace}flag__img,
+    %#{$inuit-flag-namespace}flag__img {
+        padding-right: $inuit-flag-gutter;
+
+        > img {
+            display: block;
+            max-width: none;
+        }
+
+    }
+
+    /**
+     * The container for the main content of the flag object.
+     *
+     * 1. Forces the `.flag__body` to take up all remaining space.
+     */
+    .#{$inuit-flag-namespace}flag__body,
+    %#{$inuit-flag-namespace}flag__body {
+        width: 100%; /* [1] */
+
+        &,
+        > :last-child {
+            margin-bottom: 0;
+        }
+
+    }
+
+
+
+
+
+@if ($inuit-enable-flag--tiny == true) {
+
+    /**
+     * Tiny flags.
+     */
+
+    .#{$inuit-flag-namespace}flag--tiny,
+    %#{$inuit-flag-namespace}flag--tiny {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: $inuit-flag-gutter--tiny;
+        }
+
+        @if ($inuit-enable-flag--rev == true) {
+
+            /**
+             * Tiny reversed flags.
+             */
+
+            &.#{$inuit-flag-namespace}flag--rev,
+            &%#{$inuit-flag-namespace}flag--rev {
+
+                > .#{$inuit-flag-namespace}flag__img,
+                > %#{$inuit-flag-namespace}flag__img {
+                    padding-right: 0;
+                    padding-left:  $inuit-flag-gutter--tiny;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-flag--small == true) {
+
+    /**
+     * Small flags.
+     */
+
+    .#{$inuit-flag-namespace}flag--small,
+    %#{$inuit-flag-namespace}flag--small {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: $inuit-flag-gutter--small;
+        }
+
+        @if ($inuit-enable-flag--rev == true) {
+
+            /**
+             * Small reversed flags.
+             */
+
+            &.#{$inuit-flag-namespace}flag--rev,
+            &%#{$inuit-flag-namespace}flag--rev {
+
+                > .#{$inuit-flag-namespace}flag__img,
+                > %#{$inuit-flag-namespace}flag__img {
+                    padding-right: 0;
+                    padding-left:  $inuit-flag-gutter--small;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-flag--large == true) {
+
+    /**
+     * Large flags.
+     */
+
+    .#{$inuit-flag-namespace}flag--large,
+    %#{$inuit-flag-namespace}flag--large {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: $inuit-flag-gutter--large;
+        }
+
+        @if ($inuit-enable-flag--rev == true) {
+
+            /**
+             * Large reversed flags.
+             */
+
+            &.#{$inuit-flag-namespace}flag--rev,
+            &%#{$inuit-flag-namespace}flag--rev {
+
+                > .#{$inuit-flag-namespace}flag__img,
+                > %#{$inuit-flag-namespace}flag__img {
+                    padding-right: 0;
+                    padding-left:  $inuit-flag-gutter--large;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-flag--huge == true) {
+
+    /**
+     * Huge flags.
+     */
+
+    .#{$inuit-flag-namespace}flag--huge,
+    %#{$inuit-flag-namespace}flag--huge {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: $inuit-flag-gutter--huge;
+        }
+
+        @if ($inuit-enable-flag--rev == true) {
+
+            /**
+             * Huge reversed flags.
+             */
+
+            &.#{$inuit-flag-namespace}flag--rev,
+            &%#{$inuit-flag-namespace}flag--rev {
+
+                > .#{$inuit-flag-namespace}flag__img,
+                > %#{$inuit-flag-namespace}flag__img {
+                    padding-right: 0;
+                    padding-left:  $inuit-flag-gutter--huge;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-flag--rev == true) {
+
+    /**
+     * Reversed flag objects have their image-content to the right, and text-content
+     * to the left.
+     *
+     * 1. Swap the rendered direction of the object…
+     * 2. …and reset it.
+     * 3. Reassign margins to the correct sides.
+     */
+
+    .#{$inuit-flag-namespace}flag--rev,
+    %#{$inuit-flag-namespace}flag--rev {
+        direction: rtl; /* [1] */
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img,
+        > .#{$inuit-flag-namespace}flag__body,
+        > %#{$inuit-flag-namespace}flag__body {
+            direction: ltr; /* [2] */
+        }
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: 0; /* [3] */
+            padding-left: $inuit-flag-gutter; /* [3] */
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-flag--flush == true) {
+
+    /**
+     * Flush flag objects have no space between the image- and text-content.
+     */
+
+    .#{$inuit-flag-namespace}flag--flush,
+    %#{$inuit-flag-namespace}flag--flush {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img {
+            padding-right: 0;
+            padding-left:  0;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-flag--top == true) {
+
+    /**
+     * Vertically top aligned flag objects.
+     */
+
+    .#{$inuit-flag-namespace}flag--top,
+    %#{$inuit-flag-namespace}flag--top {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img,
+        > .#{$inuit-flag-namespace}flag__body,
+        > %#{$inuit-flag-namespace}flag__body {
+            vertical-align: top;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-flag--bottom == true) {
+
+    /**
+     * Vertically bottom aligned flag objects.
+     */
+
+    .#{$inuit-flag-namespace}flag--bottom,
+    %#{$inuit-flag-namespace}flag--bottom {
+
+        > .#{$inuit-flag-namespace}flag__img,
+        > %#{$inuit-flag-namespace}flag__img,
+        > .#{$inuit-flag-namespace}flag__body,
+        > %#{$inuit-flag-namespace}flag__body {
+            vertical-align: bottom;
+        }
+
+    }
+
+}
+
+
+
+
+@if ($inuit-enable-flag--responsive == true) {
+
+    /**
+     * Responsive flag objects.
+     *
+     * There is a very pragmatic, simple implementation of a responsive flag
+     * object, which simply places the text-content beneath the image-content.
+     *
+     * We use a `max-width` media query because:
+     *
+     * a) it is the least verbose method in terms of amount of code required.
+     * b) the flag object’s default state is image-next-to-text, so its stacked
+     *    state is the exception, rather than the rule.
+     */
+
+    @media screen and (max-width: $inuit-flag-collapse-at) {
+
+        .#{$inuit-flag-namespace}flag--responsive,
+        %#{$inuit-flag-namespace}flag--responsive {
+
+            @if ($inuit-enable-flag--rev == true) {
+
+                /**
+                 * Disable reversal of content because there is no concept of
+                 * ‘reversed’ in a stacked layout.
+                 */
+                direction: ltr;
+            }
+
+            &,
+            > .#{$inuit-flag-namespace}flag__img,
+            > %#{$inuit-flag-namespace}flag__img,
+            > .#{$inuit-flag-namespace}flag__body,
+            > %#{$inuit-flag-namespace}flag__body {
+                display: block;
+            }
+
+            /**
+             * Rework the spacings on regular flag objects.
+             */
+            > .#{$inuit-flag-namespace}flag__img,
+            > %#{$inuit-flag-namespace}flag__img {
+                padding-right: 0;
+                padding-left:  0;
+                margin-bottom: $inuit-flag-gutter;
+            }
+
+            @if ($inuit-enable-flag--tiny == true) {
+
+                /**
+                 * Tiny responsive flags.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on flags that are also tiny flags in their regular
+                 * state.
+                 */
+
+                &.#{$inuit-flag-namespace}flag--tiny,
+                &%#{$inuit-flag-namespace}flag--tiny {
+
+                    > .#{$inuit-flag-namespace}flag__img,
+                    > %#{$inuit-flag-namespace}flag__img {
+                        padding-right: 0;
+                        padding-left:  0;
+                        margin-bottom: $inuit-flag-gutter--tiny;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-flag--small == true) {
+
+                /**
+                 * Small responsive flags.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on flags that are also small flags in their regular
+                 * state.
+                 */
+
+                &.#{$inuit-flag-namespace}flag--small,
+                &%#{$inuit-flag-namespace}flag--small {
+
+                    > .#{$inuit-flag-namespace}flag__img,
+                    > %#{$inuit-flag-namespace}flag__img {
+                        padding-right: 0;
+                        padding-left:  0;
+                        margin-bottom: $inuit-flag-gutter--small;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-flag--large == true) {
+
+                /**
+                 * Large responsive flags.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on flags that are also large flags in their regular
+                 * state.
+                 */
+
+                &.#{$inuit-flag-namespace}flag--large,
+                &%#{$inuit-flag-namespace}flag--large {
+
+                    > .#{$inuit-flag-namespace}flag__img,
+                    > %#{$inuit-flag-namespace}flag__img {
+                        padding-right: 0;
+                        padding-left:  0;
+                        margin-bottom: $inuit-flag-gutter--large;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-flag--huge == true) {
+
+                /**
+                 * Huge responsive flags.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on flags that are also huge flags in their regular
+                 * state.
+                 */
+
+                &.#{$inuit-flag-namespace}flag--huge,
+                &%#{$inuit-flag-namespace}flag--huge {
+
+                    > .#{$inuit-flag-namespace}flag__img,
+                    > %#{$inuit-flag-namespace}flag__img {
+                        padding-right: 0;
+                        padding-left:  0;
+                        margin-bottom: $inuit-flag-gutter--huge;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #LAYOUT
+\*------------------------------------*/
+
+/**
+ * The inuitcss layout system uses `box-sizing: border-box;` and
+ * `display: inline-block;` to create an extremely powerful, flexible
+ * alternative to the traditional grid system. Combine the layout items with
+ * the widths found in `trumps.widths`.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-layout-namespace:        $inuit-namespace !default;
+
+$inuit-layout-gutter:           $inuit-base-spacing-unit !default;
+$inuit-layout-gutter--tiny:       quarter($inuit-layout-gutter) !default;
+$inuit-layout-gutter--small:        halve($inuit-layout-gutter) !default;
+$inuit-layout-gutter--large:       double($inuit-layout-gutter) !default;
+$inuit-layout-gutter--huge:     quadruple($inuit-layout-gutter) !default;
+
+$inuit-enable-layout--tiny:     false !default;
+$inuit-enable-layout--small:    false !default;
+$inuit-enable-layout--large:    false !default;
+$inuit-enable-layout--huge:     false !default;
+$inuit-enable-layout--flush:    false !default;
+$inuit-enable-layout--rev:      false !default;
+$inuit-enable-layout--middle:   false !default;
+$inuit-enable-layout--bottom:   false !default;
+$inuit-enable-layout--right:    false !default;
+$inuit-enable-layout--center:   false !default;
+$inuit-enable-layout--auto:     false !default;
+
+
+
+
+
+// Here we set a variable assuming that `box-sizing: border-box;` is not set
+// globally. If it has been previously been defined, the following variable will
+// be overriden and will be set to `true`.
+$inuit-global-border-box: false !default;
+
+
+
+
+
+/**
+ * Begin a layout group.
+ */
+.#{$inuit-layout-namespace}layout,
+%#{$inuit-layout-namespace}layout {
+    list-style: none;
+    margin:  0;
+    padding: 0;
+    margin-left: -$inuit-layout-gutter;
+}
+
+    /**
+     * 1. Cause columns to stack side-by-side.
+     * 2. Space columns apart.
+     * 3. Align columns to the tops of each other.
+     * 4. Full-width unless told to behave otherwise.
+     * 5. Required to combine fluid widths and fixed gutters.
+     */
+    .#{$inuit-layout-namespace}layout__item,
+    %#{$inuit-layout-namespace}layout__item {
+        display: inline-block; /* [1] */
+        padding-left: $inuit-layout-gutter; /* [2] */
+        vertical-align: top; /* [3] */
+        width: 100%; /* [4] */
+
+        @if $inuit-global-border-box == false {
+            -webkit-box-sizing: border-box; /* [5] */
+               -moz-box-sizing: border-box; /* [5] */
+                    box-sizing: border-box; /* [5] */
+        }
+
+    }
+
+
+
+
+
+@if ($inuit-enable-layout--tiny == true) {
+
+    /**
+     * Layouts with tiny gutters.
+     */
+
+    .#{$inuit-layout-namespace}layout--tiny,
+    %#{$inuit-layout-namespace}layout--tiny {
+        margin-left: -($inuit-layout-gutter--tiny);
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            padding-left: $inuit-layout-gutter--tiny;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-layout--small == true) {
+
+    /**
+     * Layouts with small gutters.
+     */
+
+    .#{$inuit-layout-namespace}layout--small,
+    %#{$inuit-layout-namespace}layout--small {
+        margin-left: -($inuit-layout-gutter--small);
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            padding-left: $inuit-layout-gutter--small;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-layout--large == true) {
+
+    /**
+     * Layouts with large gutters.
+     */
+
+    .#{$inuit-layout-namespace}layout--large,
+    %#{$inuit-layout-namespace}layout--large {
+        margin-left: -($inuit-layout-gutter--large);
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            padding-left: $inuit-layout-gutter--large;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-layout--huge == true) {
+
+    /**
+     * Layouts with huge gutters.
+     */
+
+    .#{$inuit-layout-namespace}layout--huge,
+    %#{$inuit-layout-namespace}layout--huge {
+        margin-left: -($inuit-layout-gutter--huge);
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            padding-left: $inuit-layout-gutter--huge;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-layout--flush == true) {
+
+    /**
+     * Layouts with no gutters.
+     */
+
+    .#{$inuit-layout-namespace}layout--flush,
+    %#{$inuit-layout-namespace}layout--flush {
+        margin-left: 0;
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            padding-left: 0;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-layout--rev == true) {
+
+    /**
+     * Reversed rendered order of layout items, e.g. items 1, 2, 3, 4 in your
+     * markup will display in order 4, 3, 2, 1 on your page.
+     */
+
+    .#{$inuit-layout-namespace}layout--rev,
+    %#{$inuit-layout-namespace}layout--rev {
+        direction: rtl;
+        text-align: left;
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            direction: ltr;
+            text-align: left;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-layout--middle == true) {
+
+    /**
+     * Align layout items to the vertical centers of each other.
+     */
+
+    .#{$inuit-layout-namespace}layout--middle,
+    %#{$inuit-layout-namespace}layout--middle {
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            vertical-align: middle;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-layout--bottom == true) {
+
+    /**
+     * Align layout items to the vertical bottoms of each other.
+     */
+
+    .#{$inuit-layout-namespace}layout--bottom,
+    %#{$inuit-layout-namespace}layout--bottom {
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            vertical-align: bottom;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-layout--right == true) {
+
+    /**
+     * Make the layout items fill up from the right hand side.
+     */
+
+    .#{$inuit-layout-namespace}layout--right,
+    %#{$inuit-layout-namespace}layout--right {
+        text-align: right;
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            text-align: left;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-layout--center == true) {
+
+    /**
+     * Make the layout items fill up from the center outward.
+     */
+
+    .#{$inuit-layout-namespace}layout--center,
+    %#{$inuit-layout-namespace}layout--center {
+        text-align: center;
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            text-align: left;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-layout--auto == true) {
+
+    /**
+     * Cause layout items to take up a non-explicit amount of width.
+     */
+    .#{$inuit-layout-namespace}layout--auto,
+    %#{$inuit-layout-namespace}layout--auto {
+
+        > .#{$inuit-layout-namespace}layout__item,
+        > %#{$inuit-layout-namespace}layout__item {
+            width: auto;
+        }
+
+    }
+
+}
+/*------------------------------------*\
+    #LIST-BARE
+\*------------------------------------*/
+
+/**
+ * The list-bare object simply removes any indents and bullet points from lists.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-list-bare-namespace: $inuit-namespace !default;
+
+.#{$inuit-list-bare-namespace}list-bare,
+%#{$inuit-list-bare-namespace}list-bare {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+}
+
+
+/*------------------------------------*\
+    #LIST-BLOCK
+\*------------------------------------*/
+
+/**
+ * The list-block object creates blocky list items out of a `ul` or `ol`.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-list-block-namespace:        $inuit-namespace !default;
+
+$inuit-list-block-padding:          $inuit-base-spacing-unit !default;
+$inuit-list-block-padding--tiny:      quarter($inuit-list-block-padding) !default;
+$inuit-list-block-padding--small:       halve($inuit-list-block-padding) !default;
+$inuit-list-block-padding--large:      double($inuit-list-block-padding) !default;
+$inuit-list-block-padding--huge:    quadruple($inuit-list-block-padding) !default;
+
+$inuit-enable-list-block--tiny:     false !default;
+$inuit-enable-list-block--small:    false !default;
+$inuit-enable-list-block--large:    false !default;
+$inuit-enable-list-block--huge:     false !default;
+
+.#{$inuit-list-block-namespace}list-block,
+%#{$inuit-list-block-namespace}list-block {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+        @extend %#{$inuit-list-block-namespace}list-block__item;
+    }
+
+}
+
+    .#{$inuit-list-block-namespace}list-block__item,
+    %#{$inuit-list-block-namespace}list-block__item {
+        padding: $inuit-list-block-padding;
+    }
+
+
+
+
+
+@if ($inuit-enable-list-block--tiny == true) {
+
+    /**
+     * Tiny list-blocks.
+     */
+
+    .#{$inuit-list-block-namespace}list-block--tiny,
+    %#{$inuit-list-block-namespace}list-block--tiny {
+
+        > .#{$inuit-list-block-namespace}list-block__item,
+        > %#{$inuit-list-block-namespace}list-block__item {
+            padding: $inuit-list-block-padding--tiny;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-block--small == true) {
+
+    /**
+     * Small list-blocks.
+     */
+
+    .#{$inuit-list-block-namespace}list-block--small,
+    %#{$inuit-list-block-namespace}list-block--small {
+
+        > .#{$inuit-list-block-namespace}list-block__item,
+        > %#{$inuit-list-block-namespace}list-block__item {
+            padding: $inuit-list-block-padding--small;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-block--large == true) {
+
+    /**
+     * Large list-blocks.
+     */
+
+    .#{$inuit-list-block-namespace}list-block--large,
+    %#{$inuit-list-block-namespace}list-block--large {
+
+        > .#{$inuit-list-block-namespace}list-block__item,
+        > %#{$inuit-list-block-namespace}list-block__item {
+            padding: $inuit-list-block-padding--large;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-block--huge == true) {
+
+    /**
+     * Huge list-blocks.
+     */
+
+    .#{$inuit-list-block-namespace}list-block--huge,
+    %#{$inuit-list-block-namespace}list-block--huge {
+
+        > .#{$inuit-list-block-namespace}list-block__item,
+        > %#{$inuit-list-block-namespace}list-block__item {
+            padding: $inuit-list-block-padding--huge;
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #LIST-UI
+\*------------------------------------*/
+
+/**
+ * The UI list object creates blocky list items with a keyline separator out of
+ * a `ul` or `ol`.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-list-ui-namespace:       $inuit-namespace !default;
+
+$inuit-list-ui-padding:         $inuit-base-spacing-unit !default;
+$inuit-list-ui-padding--tiny:     quarter($inuit-list-ui-padding) !default;
+$inuit-list-ui-padding--small:      halve($inuit-list-ui-padding) !default;
+$inuit-list-ui-padding--large:     double($inuit-list-ui-padding) !default;
+$inuit-list-ui-padding--huge:   quadruple($inuit-list-ui-padding) !default;
+
+$inuit-list-ui-border-width:    1px !default;
+$inuit-list-ui-border-style:    solid !default;
+$inuit-list-ui-border-color:    #ccc !default;
+
+$inuit-enable-list-ui--tiny:    false !default;
+$inuit-enable-list-ui--small:   false !default;
+$inuit-enable-list-ui--large:   false !default;
+$inuit-enable-list-ui--huge:    false !default;
+
+.#{$inuit-list-ui-namespace}list-ui,
+%#{$inuit-list-ui-namespace}list-ui,
+    .#{$inuit-list-ui-namespace}list-ui__item,
+    %#{$inuit-list-ui-namespace}list-ui__item {
+        border: 0 $inuit-list-ui-border-style $inuit-list-ui-border-color;
+    }
+
+.#{$inuit-list-ui-namespace}list-ui,
+%#{$inuit-list-ui-namespace}list-ui {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+    border-top-width: $inuit-list-ui-border-width;
+
+    > li {
+        @extend %#{$inuit-list-ui-namespace}list-ui__item;
+    }
+
+}
+
+    .#{$inuit-list-ui-namespace}list-ui__item,
+    %#{$inuit-list-ui-namespace}list-ui__item {
+        padding: $inuit-list-ui-padding;
+        border-bottom-width: $inuit-list-ui-border-width;
+    }
+
+
+
+
+
+@if ($inuit-enable-list-ui--tiny == true) {
+
+    /**
+     * Tiny list-uis.
+     */
+
+    .#{$inuit-list-ui-namespace}list-ui--tiny,
+    %#{$inuit-list-ui-namespace}list-ui--tiny {
+
+        > .#{$inuit-list-ui-namespace}list-ui__item,
+        > %#{$inuit-list-ui-namespace}list-ui__item {
+            padding: $inuit-list-ui-padding--tiny;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-ui--small == true) {
+
+    /**
+     * Small list-uis.
+     */
+
+    .#{$inuit-list-ui-namespace}list-ui--small,
+    %#{$inuit-list-ui-namespace}list-ui--small {
+
+        > .#{$inuit-list-ui-namespace}list-ui__item,
+        > %#{$inuit-list-ui-namespace}list-ui__item {
+            padding: $inuit-list-ui-padding--small;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-ui--large == true) {
+
+    /**
+     * Large list-uis.
+     */
+
+    .#{$inuit-list-ui-namespace}list-ui--large,
+    %#{$inuit-list-ui-namespace}list-ui--large {
+
+        > .#{$inuit-list-ui-namespace}list-ui__item,
+        > %#{$inuit-list-ui-namespace}list-ui__item {
+            padding: $inuit-list-ui-padding--large;
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-list-ui--huge == true) {
+
+    /**
+     * Huge list-uis.
+     */
+
+    .#{$inuit-list-ui-namespace}list-ui--huge,
+    %#{$inuit-list-ui-namespace}list-ui--huge {
+
+        > .#{$inuit-list-ui-namespace}list-ui__item,
+        > %#{$inuit-list-ui-namespace}list-ui__item {
+            padding: $inuit-list-ui-padding--huge;
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #MEDIA
+\*------------------------------------*/
+
+/**
+ * Place any image- and text-like content side-by-side, as per:
+ * stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-media-namespace:             $inuit-namespace !default;
+
+$inuit-media-gutter:                $inuit-base-spacing-unit !default;
+$inuit-media-gutter--tiny:            quarter($inuit-media-gutter) !default;
+$inuit-media-gutter--small:             halve($inuit-media-gutter) !default;
+$inuit-media-gutter--large:            double($inuit-media-gutter) !default;
+$inuit-media-gutter--huge:          quadruple($inuit-media-gutter) !default;
+
+$inuit-enable-media--tiny:          false !default;
+$inuit-enable-media--small:         false !default;
+$inuit-enable-media--large:         false !default;
+$inuit-enable-media--huge:          false !default;
+$inuit-enable-media--rev:           false !default;
+$inuit-enable-media--flush:         false !default;
+$inuit-enable-media--responsive:    false !default;
+$inuit-media-collapse-at:           720px !default;
+
+
+
+
+
+.#{$inuit-media-namespace}media,
+%#{$inuit-media-namespace}media {
+    @extend %clearfix;
+    display: block;
+}
+
+    .#{$inuit-media-namespace}media__img,
+    %#{$inuit-media-namespace}media__img {
+        float: left;
+        margin-right: $inuit-media-gutter;
+
+        > img {
+            display: block;
+        }
+
+    }
+
+    .#{$inuit-media-namespace}media__body,
+    %#{$inuit-media-namespace}media__body {
+        overflow: hidden;
+        display: block;
+
+        &,
+        > :last-child {
+            margin-bottom: 0;
+        }
+
+    }
+
+
+
+
+
+@if ($inuit-enable-media--tiny == true) {
+
+    /**
+     * Tiny media objects.
+     */
+
+    .#{$inuit-media-namespace}media--tiny,
+    %#{$inuit-media-namespace}media--tiny {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            margin-right: $inuit-media-gutter--tiny;
+        }
+
+        @if ($inuit-enable-media--rev == true) {
+
+            /**
+             * Tiny reversed media objects.
+             */
+
+            &.#{$inuit-media-namespace}media--rev,
+            &%#{$inuit-media-namespace}media--rev {
+
+                > .#{$inuit-media-namespace}media__img,
+                > %#{$inuit-media-namespace}media__img {
+                    margin-right: 0;
+                    margin-left:  $inuit-media-gutter--tiny;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-media--small == true) {
+
+    /**
+     * Small media objects.
+     */
+
+    .#{$inuit-media-namespace}media--small,
+    %#{$inuit-media-namespace}media--small {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            margin-right: $inuit-media-gutter--small;
+        }
+
+        @if ($inuit-enable-media--rev == true) {
+
+            /**
+             * Small reversed media objects.
+             */
+
+            &.#{$inuit-media-namespace}media--rev,
+            &%#{$inuit-media-namespace}media--rev {
+
+                > .#{$inuit-media-namespace}media__img,
+                > %#{$inuit-media-namespace}media__img {
+                    margin-right: 0;
+                    margin-left:  $inuit-media-gutter--small;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-media--large == true) {
+
+    /**
+     * Large media objects.
+     */
+
+    .#{$inuit-media-namespace}media--large,
+    %#{$inuit-media-namespace}media--large {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            margin-right: $inuit-media-gutter--large;
+        }
+
+        @if ($inuit-enable-media--rev == true) {
+
+            /**
+             * Large reversed media objects.
+             */
+
+            &.#{$inuit-media-namespace}media--rev,
+            &%#{$inuit-media-namespace}media--rev {
+
+                > .media__img,
+                > %media__img {
+                    margin-right: 0;
+                    margin-left:  $inuit-media-gutter--large;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+@if ($inuit-enable-media--huge == true) {
+
+    /**
+     * Huge media objects.
+     */
+
+    .#{$inuit-media-namespace}media--huge,
+    %#{$inuit-media-namespace}media--huge {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            margin-right: $inuit-media-gutter--huge;
+        }
+
+        @if ($inuit-enable-media--rev == true) {
+
+            /**
+             * Huge reversed media objects.
+             */
+
+            &.#{$inuit-media-namespace}media--rev,
+            &%#{$inuit-media-namespace}media--rev {
+
+                > .media__img,
+                > %media__img {
+                    margin-right: 0;
+                    margin-left:  $inuit-media-gutter--huge;
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-media--rev == true) {
+
+    /**
+     * Reversed image location (right instead of left). Extends `.media`.
+     */
+
+    .#{$inuit-media-namespace}media--rev,
+    %#{$inuit-media-namespace}media--rev {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            float: right;
+            margin-right: 0;
+            margin-left: $inuit-media-gutter;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-media--flush == true) {
+
+    /**
+     * Flush media objects have no space between the image- and text-content.
+     */
+
+    .#{$inuit-media-namespace}media--flush,
+    %#{$inuit-media-namespace}media--flush {
+
+        > .#{$inuit-media-namespace}media__img,
+        > %#{$inuit-media-namespace}media__img {
+            margin-right: 0;
+            margin-left:  0;
+        }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-media--responsive == true) {
+
+    /**
+     * Responsive media objects.
+     *
+     * There is a very pragmatic, simple implementation of a responsive media
+     * object, which simply places the text-content beneath the image-content.
+     *
+     * We use a `max-width` media query because:
+     *
+     * a) it is the least verbose method in terms of amount of code required.
+     * b) the media object’s default state is image-next-to-text, so its stacked
+     *    state is the exception, rather than the rule.
+     */
+
+    @media screen and (max-width: $inuit-media-collapse-at) {
+
+        .#{$inuit-media-namespace}media--responsive,
+        %#{$inuit-media-namespace}media--responsive {
+
+            /**
+             * Rework the spacings on regular media objects.
+             */
+            > .#{$inuit-media-namespace}media__img,
+            > %#{$inuit-media-namespace}media__img {
+                float: none;
+                margin-right: 0;
+                margin-bottom: $inuit-media-gutter;
+                margin-left:  0;
+            }
+
+            @if ($inuit-enable-media--tiny == true) {
+
+                /**
+                 * Tiny responsive media objects.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on media objects that are also tiny media objects
+                 * in their regular state.
+                 */
+
+                &.#{$inuit-media-namespace}media--tiny,
+                &%#{$inuit-media-namespace}media--tiny {
+
+                    > .#{$inuit-media-namespace}media__img,
+                    > %#{$inuit-media-namespace}media__img {
+                        margin-right: 0;
+                        margin-left:  0;
+                        margin-bottom: $inuit-media-gutter--tiny;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-media--small == true) {
+
+                /**
+                 * Small responsive media objects.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on media objects that are also small media objects
+                 * in their regular state.
+                 */
+
+                &.#{$inuit-media-namespace}media--small,
+                &%#{$inuit-media-namespace}media--small {
+
+                    > .#{$inuit-media-namespace}media__img,
+                    > %#{$inuit-media-namespace}media__img {
+                        margin-right: 0;
+                        margin-left:  0;
+                        margin-bottom: $inuit-media-gutter--small;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-media--large == true) {
+
+                /**
+                 * Large responsive media objects.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on media objects that are also large media objects
+                 * in their regular state.
+                 */
+
+                &.#{$inuit-media-namespace}media--large,
+                &%#{$inuit-media-namespace}media--large {
+
+                    > .#{$inuit-media-namespace}media__img,
+                    > %#{$inuit-media-namespace}media__img {
+                        margin-right: 0;
+                        margin-left:  0;
+                        margin-bottom: $inuit-media-gutter--large;
+                    }
+
+                }
+
+            }
+
+            @if ($inuit-enable-media--huge == true) {
+
+                /**
+                 * Huge responsive media objects.
+                 *
+                 * Take a little more heavy-handed approach to reworking
+                 * spacings on media objects that are also huge media objects
+                 * in their regular state.
+                 */
+
+                &.#{$inuit-media-namespace}media--huge,
+                &%#{$inuit-media-namespace}media--huge {
+
+                    > .#{$inuit-media-namespace}media__img,
+                    > %#{$inuit-media-namespace}media__img {
+                        margin-right: 0;
+                        margin-left:  0;
+                        margin-bottom: $inuit-media-gutter--huge;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #PACK
+\*------------------------------------*/
+
+/**
+ * The pack object simply causes any number of elements pack up horizontally to
+ * automatically fill an equal, fluid width of their parent.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-pack-namespace:      $inuit-namespace !default;
+
+$inuit-pack-gutter:         $inuit-base-spacing-unit !default;
+$inuit-pack-gutter--tiny:     quarter($inuit-pack-gutter) !default;
+$inuit-pack-gutter--small:      halve($inuit-pack-gutter) !default;
+$inuit-pack-gutter--large:     double($inuit-pack-gutter) !default;
+$inuit-pack-gutter--huge:   quadruple($inuit-pack-gutter) !default;
+
+$inuit-enable-pack--auto:   false !default;
+$inuit-enable-pack--tiny:   false !default;
+$inuit-enable-pack--small:  false !default;
+$inuit-enable-pack--large:  false !default;
+$inuit-enable-pack--huge:   false !default;
+$inuit-enable-pack--rev:    false !default;
+$inuit-enable-pack--middle: false !default;
+$inuit-enable-pack--bottom: false !default;
+
+
+
+
+
+/**
+ * 1. Fill all available space.
+ * 2. Cause children to be automatically equally sized.
+ */
+.#{$inuit-pack-namespace}pack,
+%#{$inuit-pack-namespace}pack {
+    width: 100%; /* [1] */
+    display: table;
+    table-layout: fixed; /* [2] */
+}
+
+    /**
+     * Cause children to adopt table-like structure.
+     */
+    .#{$inuit-pack-namespace}pack__item,
+    %#{$inuit-pack-namespace}pack__item {
+        display: table-cell;
+
+        @if ($inuit-enable-pack--middle == true) {
+
+            /**
+             * All items are aligned to the middles of each other.
+             */
+
+            .#{$inuit-pack-namespace}pack--middle > &,
+            %#{$inuit-pack-namespace}pack--middle > & {
+                vertical-align: middle;
+            }
+
+        }
+
+        @if ($inuit-enable-pack--bottom == true) {
+
+            /**
+             * All items are aligned to the bottoms of each other.
+             */
+
+            .#{$inuit-pack-namespace}pack--bottom > &,
+            %#{$inuit-pack-namespace}pack--bottom > & {
+                vertical-align: bottom;
+            }
+
+        }
+
+    }
+
+
+
+
+
+@if ($inuit-enable-pack--auto == true) {
+
+    /**
+     * Cause children to pack up into available space, but not equally sized.
+     */
+
+    .#{$inuit-pack-namespace}pack--auto,
+    %#{$inuit-pack-namespace}pack--auto {
+        table-layout: auto;
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-pack--tiny == true) {
+
+    /**
+     * Tiny gutters between items.
+     */
+
+    .#{$inuit-pack-namespace}pack--tiny,
+    %#{$inuit-pack-namespace}pack--tiny {
+        border-spacing: $inuit-pack-gutter--tiny;
+    }
+
+}
+
+@if ($inuit-enable-pack--small == true) {
+
+    /**
+     * Small gutters between items.
+     */
+
+    .#{$inuit-pack-namespace}pack--small,
+    %#{$inuit-pack-namespace}pack--small {
+        border-spacing: $inuit-pack-gutter--small;
+    }
+
+}
+
+@if ($inuit-enable-pack--large == true) {
+
+    /**
+     * Large gutters between items.
+     */
+
+    .#{$inuit-pack-namespace}pack--large,
+    %#{$inuit-pack-namespace}pack--large {
+        border-spacing: $inuit-pack-gutter--large;
+    }
+
+}
+
+@if ($inuit-enable-pack--huge == true) {
+
+    /**
+     * Huge gutters between items.
+     */
+
+    .#{$inuit-pack-namespace}pack--huge,
+    %#{$inuit-pack-namespace}pack--huge {
+        border-spacing: $inuit-pack-gutter--huge;
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-pack--rev == true) {
+
+    /**
+     * Reversed order packs.
+     */
+    
+    .#{$inuit-pack-namespace}pack--rev,
+    %#{$inuit-pack-namespace}pack--rev {
+        direction: rtl;
+    
+        > .#{$inuit-pack-namespace}pack__item,
+        > %#{$inuit-pack-namespace}pack__item {
+            direction: ltr;
+        }
+    
+    }
+
+}
+
+
+/*------------------------------------*\
+    #TABLES
+\*------------------------------------*/
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-table-namespace:         $inuit-namespace !default;
+
+$inuit-table-padding--compact:  quarter($inuit-base-spacing-unit) !default;
+$inuit-table-padding--cosy:     halve($inuit-base-spacing-unit) !default;
+$inuit-table-padding--comfy:    $inuit-base-spacing-unit !default;
+
+$inuit-table-border-width:      1px !default;
+$inuit-table-border-style:      solid !default;
+$inuit-table-border-color:      #ccc !default;
+
+$inuit-enable-table--fixed:     false !default;
+$inuit-enable-table--compact:   false !default;
+$inuit-enable-table--cosy:      false !default;
+$inuit-enable-table--comfy:     false !default;
+$inuit-enable-table--cells:     false !default;
+$inuit-enable-table--rows:      false !default;
+$inuit-enable-table--columns:   false !default;
+
+
+
+
+
+.#{$inuit-table-namespace}table,
+%#{$inuit-table-namespace}table {
+    width: 100%;
+}
+
+
+
+
+
+@if ($inuit-enable-table--fixed == true) {
+
+    /**
+     * Force tables into having equal-width columns.
+     */
+    .#{$inuit-table-namespace}table--fixed,
+    %#{$inuit-table-namespace}table--fixed {
+        table-layout: fixed;
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--compact == true) {
+
+    /**
+     * Tables with very tightly packed cells.
+     */
+    .#{$inuit-table-namespace}table--compact,
+    %#{$inuit-table-namespace}table--compact {
+    
+        th,
+        td {
+            padding: $inuit-table-padding--compact;
+        }
+    
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--cosy == true) {
+
+    /**
+     * Lightly packed cells.
+     */
+    .#{$inuit-table-namespace}table--cosy,
+    %#{$inuit-table-namespace}table--cosy {
+    
+        th,
+        td {
+            padding: $inuit-table-padding--cosy;
+        }
+    
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--comfy == true) {
+
+    /**
+     * Tables with very widely padded cells.
+     */
+    .#{$inuit-table-namespace}table--comfy,
+    %#{$inuit-table-namespace}table--comfy {
+    
+        th,
+        td {
+            padding: $inuit-table-padding--comfy;
+        }
+    
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--cells == true) {
+
+    /**
+     * Add borders around a `table`.
+     */
+    .#{$inuit-table-namespace}table--cells,
+    %#{$inuit-table-namespace}table--cells {
+    
+        th,
+        td {
+            border: $inuit-table-border-width $inuit-table-border-style $inuit-table-border-color;
+        }
+    
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--rows == true) {
+
+    /**
+     * Add borders only to `table`’s rows.
+     */
+    .#{$inuit-table-namespace}table--rows,
+    %#{$inuit-table-namespace}table--rows {
+    
+        &,
+        th,
+        td {
+            border: 0 $inuit-table-border-style $inuit-table-border-color;
+        }
+    
+    }
+    
+    .#{$inuit-table-namespace}table--rows,
+    %#{$inuit-table-namespace}table--rows {
+        border-top-width: $inuit-table-border-width;
+    
+        th,
+        td {
+            border-bottom-width: $inuit-table-border-width;
+        }
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-table--columns == true) {
+
+    /**
+     * Add borders only to `table`’s columns.
+     */
+    .#{$inuit-table-namespace}table--columns,
+    %#{$inuit-table-namespace}table--columns {
+    
+        &,
+        th,
+        td {
+            border: 0 $inuit-table-border-style $inuit-table-border-color;
+        }
+    }
+    
+    .#{$inuit-table-namespace}table--columns,
+    %#{$inuit-table-namespace}table--columns {
+        border-left-width: $inuit-table-border-width;
+    
+        th,
+        td {
+            border-right-width: $inuit-table-border-width;
+        }
+    }
+
+}
+
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+/**
+ * A simple abstraction for making equal-width navigation tabs.
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-tabs-namespace: $inuit-namespace !default;
+
+/**
+ * 1. Reset any residual styles (most likely from lists).
+ * 2. Tables for layout!
+ * 3. Force all `table-cell` children to have equal widths.
+ * 4. Force the object to be the full width of its parent. Combined with [2],
+ *    this makes the object behave in a quasi-`display: block;` manner.
+ */
+.#{$inuit-tabs-namespace}tabs,
+%#{$inuit-tabs-namespace}tabs {
+    margin:  0; /* [1] */
+    padding: 0; /* [1] */
+    list-style: none; /* [1] */
+    display: table; /* [2] */
+    table-layout: fixed; /* [3] */
+    width: 100%; /* [4] */
+    text-align: center;
+}
+
+    .#{$inuit-tabs-namespace}tabs__item,
+    %#{$inuit-tabs-namespace}tabs__item {
+        display: table-cell; /* [2] */
+    }
+
+        .#{$inuit-tabs-namespace}tabs__link,
+        %#{$inuit-tabs-namespace}tabs__link {
+            display: block;
+        }
+
+
+/*------------------------------------*\
+    #CLEARFIX
+\*------------------------------------*/
+
+/**
+ * Micro clearfix, as per: css-101.org/articles/clearfix/latest-new-clearfix-so-far.php
+ * Extend the clearfix class with Sass to avoid the `.clearfix` class appearing
+ * over and over in your markup.
+ */
+.clearfix,
+%clearfix {
+
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+}
+
+
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+/**
+ * Headings 1–6’s corresponding Greek-alphabet abstract classes for double-
+ * stranded heading hierarchy: csswizardry.com/2012/02/pragmatic-practical-font-sizing-in-css
+ *
+ * Use these helper classes to cause other elements to adopt the styling of the
+ * respective heading, e.g.:
+ *
+   <h2 class="alpha">Lorem ipsum</h2>
+ *
+ */
+
+.#{$inuit-namespace}alpha,
+%#{$inuit-namespace}alpha {
+    @include inuit-font-size($inuit-heading-size-1);
+}
+
+.#{$inuit-namespace}beta,
+%#{$inuit-namespace}beta {
+    @include inuit-font-size($inuit-heading-size-2);
+}
+
+.#{$inuit-namespace}gamma,
+%#{$inuit-namespace}gamma {
+    @include inuit-font-size($inuit-heading-size-3);
+}
+
+.#{$inuit-namespace}delta,
+%#{$inuit-namespace}delta {
+    @include inuit-font-size($inuit-heading-size-4);
+}
+
+.#{$inuit-namespace}epsilon,
+%#{$inuit-namespace}epsilon {
+    @include inuit-font-size($inuit-heading-size-5);
+}
+
+.#{$inuit-namespace}zeta,
+%#{$inuit-namespace}zeta {
+    @include inuit-font-size($inuit-heading-size-6);
+}
+
+
+/*------------------------------------*\
+    #PRINT
+\*------------------------------------*/
+
+/**
+ * Very crude, reset-like styles taken from the HTML5 Boilerplate:
+ * https://github.com/h5bp/html5-boilerplate/blob/3c3c5e64604209a4d63e1e4c48dd245d45fadfd9/css/main.css#L200-L234
+ */
+
+@media print {
+
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /**
+     * Don’t show links that are fragment identifiers, or use the `javascript:`
+     * pseudo protocol.
+     */
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+}
+
+
+/*------------------------------------*\
+    #SPACING
+\*------------------------------------*/
+
+/**
+ * Margin and padding helper classes. Use these to tweak layout on a micro
+ * level.
+ *
+ * `.(m|p)(t|r|b|l|h|v)(-|+|0) {}` = margin/padding top/right/bottom/left/horizontal/vertical less/more/none
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-spacing-namespace:               $inuit-namespace !default;
+
+$inuit-margin:                          $inuit-base-spacing-unit !default;
+$inuit-margin--small:                       halve($inuit-margin) !default;
+$inuit-margin--tiny:                      quarter($inuit-margin) !default;
+$inuit-margin--large:                      double($inuit-margin) !default;
+$inuit-margin--huge:                    quadruple($inuit-margin) !default;
+
+$inuit-padding:                         $inuit-base-spacing-unit !default;
+$inuit-padding--small:                      halve($inuit-padding) !default;
+$inuit-padding--tiny:                     quarter($inuit-padding) !default;
+$inuit-padding--large:                     double($inuit-padding) !default;
+$inuit-padding--huge:                   quadruple($inuit-padding) !default;
+
+$inuit-enable-margins:                  false !default;
+$inuit-enable-margins--tiny:            false !default;
+$inuit-enable-margins--small:           false !default;
+$inuit-enable-margins--large:           false !default;
+$inuit-enable-margins--huge:            false !default;
+
+$inuit-enable-margins--negative:        false !default;
+$inuit-enable-margins--negative-tiny:   false !default;
+$inuit-enable-margins--negative-small:  false !default;
+$inuit-enable-margins--negative-large:  false !default;
+$inuit-enable-margins--negative-huge:   false !default;
+
+$inuit-enable-margins--none:            false !default;
+
+$inuit-enable-paddings:                 false !default;
+$inuit-enable-paddings--tiny:           false !default;
+$inuit-enable-paddings--small:          false !default;
+$inuit-enable-paddings--large:          false !default;
+$inuit-enable-paddings--huge:           false !default;
+
+$inuit-enable-paddings--none:           false !default;
+
+
+
+
+
+@if ($inuit-enable-margins == true) {
+
+    /**
+     * Margin helper classes.
+     *
+     * Add margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m     { margin:           $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-mt    { margin-top:       $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-mr    { margin-right:     $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-mb    { margin-bottom:    $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-ml    { margin-left:      $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-mh    { margin-right:     $inuit-margin !important; margin-left:      $inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u-mv    { margin-top:       $inuit-margin !important; margin-bottom:    $inuit-margin !important; }
+
+}
+
+
+@if ($inuit-enable-margins--tiny == true) {
+
+    /**
+     * Add tiny margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m--   { margin:           $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-mt--  { margin-top:       $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-mr--  { margin-right:     $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-mb--  { margin-bottom:    $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-ml--  { margin-left:      $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-mh--  { margin-right:     $inuit-margin--tiny !important; margin-left:     $inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u-mv--  { margin-top:       $inuit-margin--tiny !important; margin-bottom:   $inuit-margin--tiny !important; }
+
+}
+
+
+@if ($inuit-enable-margins--small == true) {
+
+    /**
+     * Add small margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m-    { margin:           $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-mt-   { margin-top:       $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-mr-   { margin-right:     $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-mb-   { margin-bottom:    $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-ml-   { margin-left:      $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-mh-   { margin-right:     $inuit-margin--small !important; margin-left:   $inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u-mv-   { margin-top:       $inuit-margin--small !important; margin-bottom: $inuit-margin--small !important; }
+
+}
+
+
+@if ($inuit-enable-margins--large == true) {
+
+    /**
+     * Add large margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m\+   { margin:           $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-mt\+  { margin-top:       $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-mr\+  { margin-right:     $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-mb\+  { margin-bottom:    $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-ml\+  { margin-left:      $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-mh\+  { margin-right:     $inuit-margin--large !important; margin-left:      $inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u-mv\+  { margin-top:       $inuit-margin--large !important; margin-bottom:    $inuit-margin--large !important; }
+
+}
+
+
+@if ($inuit-enable-margins--huge == true) {
+
+    /**
+     * Add huge margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m\+\+     { margin:           $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-mt\+\+    { margin-top:       $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-mr\+\+    { margin-right:     $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-mb\+\+    { margin-bottom:    $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-ml\+\+    { margin-left:      $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-mh\+\+    { margin-right:     $inuit-margin--huge !important; margin-left:   $inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u-mv\+\+    { margin-top:       $inuit-margin--huge !important; margin-bottom: $inuit-margin--huge !important; }
+
+}
+
+
+@if ($inuit-enable-margins--none == true) {
+
+    /**
+     * Remove margins.
+     */
+
+    .#{$inuit-spacing-namespace}u-m0    { margin:           0 !important; }
+    .#{$inuit-spacing-namespace}u-mt0   { margin-top:       0 !important; }
+    .#{$inuit-spacing-namespace}u-mr0   { margin-right:     0 !important; }
+    .#{$inuit-spacing-namespace}u-mb0   { margin-bottom:    0 !important; }
+    .#{$inuit-spacing-namespace}u-ml0   { margin-left:      0 !important; }
+    .#{$inuit-spacing-namespace}u-mh0   { margin-right:     0 !important; margin-left:      0 !important; }
+    .#{$inuit-spacing-namespace}u-mv0   { margin-top:       0 !important; margin-bottom:    0 !important; }
+
+}
+
+
+@if ($inuit-enable-margins--negative == true) {
+
+    /**
+     * Negative margins.
+     */
+
+    .#{$inuit-spacing-namespace}u--m    { margin:           -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--mt   { margin-top:       -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--mr   { margin-right:     -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--mb   { margin-bottom:    -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--ml   { margin-left:      -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--mh   { margin-right:     -$inuit-margin !important; margin-left:      -$inuit-margin !important; }
+    .#{$inuit-spacing-namespace}u--mv   { margin-top:       -$inuit-margin !important; margin-bottom:    -$inuit-margin !important; }
+
+}
+
+
+@if ($inuit-enable-margins--negative-tiny == true) {
+
+    /**
+     * Tiny negative margins.
+     */
+
+    .#{$inuit-spacing-namespace}u--m--  { margin:           -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--mt-- { margin-top:       -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--mr-- { margin-right:     -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--mb-- { margin-bottom:    -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--ml-- { margin-left:      -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--mh-- { margin-right:     -$inuit-margin--tiny !important; margin-left:     -$inuit-margin--tiny !important; }
+    .#{$inuit-spacing-namespace}u--mv-- { margin-top:       -$inuit-margin--tiny !important; margin-bottom:   -$inuit-margin--huge !important; }
+
+}
+
+
+@if ($inuit-enable-margins--negative-small == true) {
+
+    /**
+     * Small negative margins.
+     */
+
+    .#{$inuit-spacing-namespace}u--m-   { margin:           -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--mt-  { margin-top:       -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--mr-  { margin-right:     -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--mb-  { margin-bottom:    -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--ml-  { margin-left:      -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--mh-  { margin-right:     -$inuit-margin--small !important; margin-left:   -$inuit-margin--small !important; }
+    .#{$inuit-spacing-namespace}u--mv-  { margin-top:       -$inuit-margin--small !important; margin-bottom: -$inuit-margin--small !important; }
+
+}
+
+
+@if ($inuit-enable-margins--negative-large == true) {
+
+    /**
+     * Large negative margins.
+     */
+
+    .#{$inuit-spacing-namespace}u--m\+  { margin:           -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--mt\+ { margin-top:       -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--mr\+ { margin-right:     -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--mb\+ { margin-bottom:    -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--ml\+ { margin-left:      -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--mh\+ { margin-right:     -$inuit-margin--large !important; margin-left:      -$inuit-margin--large !important; }
+    .#{$inuit-spacing-namespace}u--mv\+ { margin-top:       -$inuit-margin--large !important; margin-bottom:    -$inuit-margin--large !important; }
+
+}
+
+
+@if ($inuit-enable-margins--negative-huge == true) {
+
+    /**
+     * Huge negative margins.
+     */
+
+    .#{$inuit-spacing-namespace}u--m\+\+    { margin:           -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--mt\+\+   { margin-top:       -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--mr\+\+   { margin-right:     -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--mb\+\+   { margin-bottom:    -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--ml\+\+   { margin-left:      -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--mh\+\+   { margin-right:     -$inuit-margin--huge !important; margin-left:   -$inuit-margin--huge !important; }
+    .#{$inuit-spacing-namespace}u--mv\+\+   { margin-top:       -$inuit-margin--huge !important; margin-bottom: -$inuit-margin--huge !important; }
+
+}
+
+
+
+
+
+@if ($inuit-enable-paddings == true) {
+
+    /**
+     * Padding helper classes.
+     *
+     * Add paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p     { padding:          $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-pt    { padding-top:      $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-pr    { padding-right:    $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-pb    { padding-bottom:   $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-pl    { padding-left:     $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-ph    { padding-right:    $inuit-padding !important; padding-left:    $inuit-padding !important; }
+    .#{$inuit-spacing-namespace}u-pv    { padding-top:      $inuit-padding !important; padding-bottom:  $inuit-padding !important; }
+
+}
+
+
+@if ($inuit-enable-paddings--tiny == true) {
+
+    /**
+     * Add tiny paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p--   { padding:           $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-pt--  { padding-top:       $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-pr--  { padding-right:     $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-pb--  { padding-bottom:    $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-pl--  { padding-left:      $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-ph--  { padding-right:     $inuit-padding--tiny !important; padding-left:      $inuit-padding--tiny !important; }
+    .#{$inuit-spacing-namespace}u-pv--  { padding-top:       $inuit-padding--tiny !important; padding-bottom:    $inuit-padding--tiny !important; }
+
+}
+
+
+@if ($inuit-enable-paddings--small == true) {
+
+    /**
+     * Add small paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p-    { padding:           $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-pt-   { padding-top:       $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-pr-   { padding-right:     $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-pb-   { padding-bottom:    $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-pl-   { padding-left:      $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-ph-   { padding-right:     $inuit-padding--small !important; padding-left:    $inuit-padding--small !important; }
+    .#{$inuit-spacing-namespace}u-pv-   { padding-top:       $inuit-padding--small !important; padding-bottom:  $inuit-padding--small !important; }
+
+}
+
+
+@if ($inuit-enable-paddings--large == true) {
+
+    /**
+     * Add large paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p\+   { padding:           $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-pt\+  { padding-top:       $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-pr\+  { padding-right:     $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-pb\+  { padding-bottom:    $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-pl\+  { padding-left:      $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-ph\+  { padding-right:     $inuit-padding--large !important; padding-left:   $inuit-padding--large !important; }
+    .#{$inuit-spacing-namespace}u-pv\+  { padding-top:       $inuit-padding--large !important; padding-bottom: $inuit-padding--large !important; }
+
+}
+
+
+@if ($inuit-enable-paddings--huge == true) {
+
+    /**
+     * Add huge paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p\+\+     { padding:           $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-pt\+\+    { padding-top:       $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-pr\+\+    { padding-right:     $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-pb\+\+    { padding-bottom:    $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-pl\+\+    { padding-left:      $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-ph\+\+    { padding-right:     $inuit-padding--huge !important; padding-left:    $inuit-padding--huge !important; }
+    .#{$inuit-spacing-namespace}u-pv\+\+    { padding-top:       $inuit-padding--huge !important; padding-bottom:  $inuit-padding--huge !important; }
+
+}
+
+
+@if ($inuit-enable-paddings--none == true) {
+
+    /**
+     * Remove paddings.
+     */
+
+    .#{$inuit-spacing-namespace}u-p0    { padding:          0 !important; }
+    .#{$inuit-spacing-namespace}u-pt0   { padding-top:      0 !important; }
+    .#{$inuit-spacing-namespace}u-pr0   { padding-right:    0 !important; }
+    .#{$inuit-spacing-namespace}u-pb0   { padding-bottom:   0 !important; }
+    .#{$inuit-spacing-namespace}u-pl0   { padding-left:     0 !important; }
+    .#{$inuit-spacing-namespace}u-ph0   { padding-right:    0 !important; padding-left:     0 !important; }
+    .#{$inuit-spacing-namespace}u-pv0   { padding-top:      0 !important; padding-bottom:   0 !important; }
+
+}
+
+/*------------------------------------*\
+    #SPACING-RESPONSIVE
+\*------------------------------------*/
+
+/**
+ * Margin and padding helper classes. Use these to tweak layout on a micro
+ * level.
+ *
+ * `.(m|p)(t|r|b|l|h|v)(-|+|0) {}` = margin/padding top/right/bottom/left/horizontal/vertical less/more/none
+ */
+
+// Predefine the variables below in order to alter and enable specific features.
+$inuit-enable-responsive-margins:                   false !default;
+$inuit-enable-responsive-margins--tiny:             false !default;
+$inuit-enable-responsive-margins--small:            false !default;
+$inuit-enable-responsive-margins--large:            false !default;
+$inuit-enable-responsive-margins--huge:             false !default;
+
+$inuit-enable-responsive-margins--negative:         false !default;
+$inuit-enable-responsive-margins--negative-tiny:    false !default;
+$inuit-enable-responsive-margins--negative-small:   false !default;
+$inuit-enable-responsive-margins--negative-large:   false !default;
+$inuit-enable-responsive-margins--negative-huge:    false !default;
+
+$inuit-enable-responsive-margins--none:             false !default;
+
+$inuit-enable-responsive-paddings:                  false !default;
+$inuit-enable-responsive-paddings--tiny:            false !default;
+$inuit-enable-responsive-paddings--small:           false !default;
+$inuit-enable-responsive-paddings--large:           false !default;
+$inuit-enable-responsive-paddings--huge:            false !default;
+
+$inuit-enable-responsive-paddings--none:            false !default;
+
+
+
+
+
+// Internally used mixin to quickly generate our different variants based upon
+// the breakpoints defined in `settings.responsive`.
+
+@mixin inuit-generate-spacing() {
+
+    // Loop through our previously-defined breakpoints.
+    @each $breakpoint in $breakpoints {
+
+        $inuit-generate-spacing-alias:      nth($breakpoint, 1) !global;
+        $inuit-generate-spacing-condition:  nth($breakpoint, 2);
+
+        // This isn’t ideal, but we definitely don’t want to generate widths
+        // for retina devices. Exclude retina media-qeuries manually.
+        @if ($inuit-generate-spacing-alias != "retina") {
+    
+            @include media-query($inuit-generate-spacing-alias) {
+                @content;
+            } // Close media query.
+
+        } // Close retina check.
+
+        // Take the global variable back out of scope.
+        $inuit-generate-spacing-alias: null !global;
+
+    } // Close breakpoints loop.
+
+}
+
+
+
+
+
+@if ($inuit-enable-responsive-margins == true) {
+
+    /**
+     * Margin helper classes.
+     *
+     * Add margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m      { margin:           $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt     { margin-top:       $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr     { margin-right:     $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb     { margin-bottom:    $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml     { margin-left:      $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh     { margin-right:     $inuit-margin !important; margin-left:      $inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv     { margin-top:       $inuit-margin !important; margin-bottom:    $inuit-margin !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--tiny == true) {
+
+    /**
+     * Add tiny margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m--     { margin:           $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt--    { margin-top:       $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr--    { margin-right:     $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb--    { margin-bottom:    $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml--    { margin-left:      $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh--    { margin-right:     $inuit-margin--tiny !important; margin-left:     $inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv--    { margin-top:       $inuit-margin--tiny !important; margin-bottom:   $inuit-margin--tiny !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--small == true) {
+
+    /**
+     * Add small margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m-      { margin:           $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt-     { margin-top:       $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr-     { margin-right:     $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb-     { margin-bottom:    $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml-     { margin-left:      $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh-     { margin-right:     $inuit-margin--small !important; margin-left:   $inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv-     { margin-top:       $inuit-margin--small !important; margin-bottom: $inuit-margin--small !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--large == true) {
+
+    /**
+     * Add large margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m\+     { margin:           $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt\+    { margin-top:       $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr\+    { margin-right:     $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb\+    { margin-bottom:    $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml\+    { margin-left:      $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh\+    { margin-right:     $inuit-margin--large !important; margin-left:      $inuit-margin--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv\+    { margin-top:       $inuit-margin--large !important; margin-bottom:    $inuit-margin--large !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--huge == true) {
+
+    /**
+     * Add huge margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m\+\+   { margin:           $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt\+\+  { margin-top:       $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr\+\+  { margin-right:     $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb\+\+  { margin-bottom:    $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml\+\+  { margin-left:      $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh\+\+  { margin-right:     $inuit-margin--huge !important; margin-left:   $inuit-margin--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv\+\+  { margin-top:       $inuit-margin--huge !important; margin-bottom: $inuit-margin--huge !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--none == true) {
+
+    /**
+     * Remove margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-m0      { margin:           0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mt0     { margin-top:       0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mr0     { margin-right:     0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mb0     { margin-bottom:    0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ml0     { margin-left:      0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mh0     { margin-right:     0 !important; margin-left:      0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-mv0     { margin-top:       0 !important; margin-bottom:    0 !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--negative == true) {
+
+    /**
+     * Negative margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--m      { margin:           -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mt     { margin-top:       -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mr     { margin-right:     -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mb     { margin-bottom:    -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--ml     { margin-left:      -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mh     { margin-right:     -$inuit-margin !important; margin-left:      -$inuit-margin !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mv     { margin-top:       -$inuit-margin !important; margin-bottom:    -$inuit-margin !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--negative-tiny == true) {
+
+    /**
+     * Tiny negative margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--m--    { margin:           -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mt--   { margin-top:       -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mr--   { margin-right:     -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mb--   { margin-bottom:    -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--ml--   { margin-left:      -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mh--   { margin-right:     -$inuit-margin--tiny !important; margin-left:     -$inuit-margin--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mv--   { margin-top:       -$inuit-margin--tiny !important; margin-bottom:   -$inuit-margin--tiny !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--negative-small == true) {
+
+    /**
+     * Small negative margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--m-     { margin:           -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mt-    { margin-top:       -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mr-    { margin-right:     -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mb-    { margin-bottom:    -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--ml-    { margin-left:      -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mh-    { margin-right:     -$inuit-margin--small !important; margin-left:   -$inuit-margin--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mv-    { margin-top:       -$inuit-margin--small !important; margin-bottom: -$inuit-margin--small !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--negative-large == true) {
+
+    /**
+     * Large negative margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--m\+    { margin:           double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mt\+   { margin-top:       double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mr\+   { margin-right:     double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mb\+   { margin-bottom:    double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--ml\+   { margin-left:      double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mh\+   { margin-right:     double(-$inuit-margin) !important; margin-left:      double(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mv\+   { margin-top:       double(-$inuit-margin) !important; margin-bottom:    double(-$inuit-margin) !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-margins--negative-huge == true) {
+
+    /**
+     * Huge negative margins.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--m\+\+  { margin:           quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mt\+\+ { margin-top:       quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mr\+\+ { margin-right:     quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mb\+\+ { margin-bottom:    quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--ml\+\+ { margin-left:      quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mh\+\+ { margin-right:     quadruple(-$inuit-margin) !important; margin-left:   quadruple(-$inuit-margin) !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}--mv\+\+ { margin-top:       quadruple(-$inuit-margin) !important; margin-bottom: quadruple(-$inuit-margin) !important; }
+
+    }
+
+}
+
+
+
+
+
+@if ($inuit-enable-responsive-paddings == true) {
+
+    /**
+     * Padding helper classes.
+     *
+     * Add paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p       { padding:          $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt      { padding-top:      $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr      { padding-right:    $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb      { padding-bottom:   $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl      { padding-left:     $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph      { padding-right:    $inuit-padding !important; padding-left:    $inuit-padding !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv      { padding-top:      $inuit-padding !important; padding-bottom:  $inuit-padding !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-paddings--tiny == true) {
+
+    /**
+     * Add tiny paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p--     { padding:           $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt--    { padding-top:       $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr--    { padding-right:     $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb--    { padding-bottom:    $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl--    { padding-left:      $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph--    { padding-right:     $inuit-padding--tiny !important; padding-left:      $inuit-padding--tiny !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv--    { padding-top:       $inuit-padding--tiny !important; padding-bottom:    $inuit-padding--tiny !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-paddings--small == true) {
+
+    /**
+     * Add small paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p-      { padding:           $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt-     { padding-top:       $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr-     { padding-right:     $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb-     { padding-bottom:    $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl-     { padding-left:      $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph-     { padding-right:     $inuit-padding--small !important; padding-left:    $inuit-padding--small !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv-     { padding-top:       $inuit-padding--small !important; padding-bottom:  $inuit-padding--small !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-paddings--large == true) {
+
+    /**
+     * Add large paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p\+     { padding:           $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt\+    { padding-top:       $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr\+    { padding-right:     $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb\+    { padding-bottom:    $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl\+    { padding-left:      $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph\+    { padding-right:     $inuit-padding--large !important; padding-left:   $inuit-padding--large !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv\+    { padding-top:       $inuit-padding--large !important; padding-bottom: $inuit-padding--large !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-paddings--huge == true) {
+
+    /**
+     * Add huge paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p\+\+   { padding:           $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt\+\+  { padding-top:       $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr\+\+  { padding-right:     $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb\+\+  { padding-bottom:    $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl\+\+  { padding-left:      $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph\+\+  { padding-right:     $inuit-padding--huge !important; padding-left:    $inuit-padding--huge !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv\+\+  { padding-top:       $inuit-padding--huge !important; padding-bottom:  $inuit-padding--huge !important; }
+
+    }
+
+}
+
+
+@if ($inuit-enable-responsive-paddings--none == true) {
+
+    /**
+     * Remove paddings.
+     */
+
+    @include inuit-generate-spacing() {
+
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-p0      { padding:          0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pt0     { padding-top:      0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pr0     { padding-right:    0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pb0     { padding-bottom:   0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pl0     { padding-left:     0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-ph0     { padding-right:    0 !important; padding-left:     0 !important; }
+        .#{$inuit-spacing-namespace}#{$inuit-generate-spacing-alias}-pv0     { padding-top:      0 !important; padding-bottom:   0 !important; }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    #WIDTHS
+\*------------------------------------*/
+
+/**
+ * A series of width helper classes that you can use to size things like grid
+ * systems. Classes can take a fraction-like format (e.g. `.u-2/3`) or a spoken-
+ * word format (e.g. `.u-2-of-3`). Use these in your markup:
+ *
+ * <div class="u-7/12">
+ */
+
+// By default we will create wholes, halves, thirds, quarters, and fifths.
+// Predefine this Map to override.
+$inuit-widths-columns: (
+    1,
+    2,
+    3,
+    4,
+    5,
+) !default;
+
+@include inuit-widths($inuit-widths-columns);
+
+
+/*------------------------------------*\
+    #WIDTHS-RESPONSIVE
+\*------------------------------------*/
+
+/**
+ * Responsive width classes based on your responsive settings.
+ */
+
+// By default we will create wholes, halves, thirds, quarters, and fifths.
+// Predefine this Map to override.
+$inuit-widths-columns-responsive: (
+    1,
+    2,
+    3,
+    4,
+    5,
+) !default;
+
+// Loop over our breakpoints defined in _settings.responsive.scss
+@each $breakpoint in $breakpoints {
+
+  // Get the name of the breakpoint.
+  $alias: nth($breakpoint, 1);
+
+  @include media-query($alias) {
+
+    // Loop through each of our column sizes and generate its responsive width
+    // classes.
+    @each $inuit-widths-column in $inuit-widths-columns-responsive {
+      @include inuit-widths($inuit-widths-column, -#{$alias});
+    }
+
+  }
+
+}
+
+
+
